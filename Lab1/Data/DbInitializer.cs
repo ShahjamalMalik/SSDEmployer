@@ -11,6 +11,7 @@ namespace Lab1.Data
 {
     public static class DbInitializer
     {
+        public static AppSecrets appSecrets {  get; set; }
         public static async Task<int> SeedUsersAndRoles(IServiceProvider serviceProvider)
         {
             // create the database if it doesn't exist
@@ -67,7 +68,7 @@ namespace Lab1.Data
                 LastName = "Manager",
                 EmailConfirmed = true
             };
-            var result = await userManager.CreateAsync(managerUser, "Password!1");
+            var result = await userManager.CreateAsync(managerUser, appSecrets.ManagerPassword);
             if (!result.Succeeded)
                 return 1;  // should log an error message here
 
@@ -85,7 +86,7 @@ namespace Lab1.Data
                 LastName = "Employee",
                 EmailConfirmed = true
             };
-            result = await userManager.CreateAsync(employeeUser, "Password!1");
+            result = await userManager.CreateAsync(employeeUser, appSecrets.EmployeePassword);
             if (!result.Succeeded)
                 return 3;  // should log an error message here
 
